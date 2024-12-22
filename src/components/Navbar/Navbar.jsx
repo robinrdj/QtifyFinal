@@ -4,11 +4,11 @@ import Button from "../Button/Button";
 import Logo from "../Logo/Logo";
 import Search from "../Search/Search";
 import styles from "./Navbar.module.css";
-
+import Hero from "../Hero/Hero";
 function Navbar({ searchData }) {
   return (
+    <div>
     <nav className={styles.navbar}>
-      {/* <div className={styles.navbar__row}> */}
       <Link to="/">
         <Logo />
       </Link>
@@ -17,8 +17,11 @@ function Navbar({ searchData }) {
         searchData={searchData}
       />
       <Button content={"Give Feedback"} />
-      {/* </div> */}
     </nav>
+    <Hero />
+    </div>
+
+    
   );
 }
 

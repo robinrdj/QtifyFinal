@@ -5,6 +5,7 @@
   padding: 0px 32px;
   background-color: #34c94b;
   padding: 20px;
+  display: flex;
 }
 .navbar__row {
   display: flex;
