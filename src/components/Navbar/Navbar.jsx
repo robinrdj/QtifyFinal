@@ -7,7 +7,6 @@ import styles from "./Navbar.module.css";
 import Hero from "../Hero/Hero";
 function Navbar({ searchData }) {
   return (
-    <div>
     <nav className={styles.navbar}>
       <Link to="/">
         <Logo />
@@ -18,10 +17,6 @@ function Navbar({ searchData }) {
       />
       <Button content={"Give Feedback"} />
     </nav>
-    <Hero />
-    </div>
-
-    
   );
 }
 export default Navbar;
