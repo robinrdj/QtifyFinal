@@ -1,7 +1,10 @@
 .search{
   height: 26px;
   width: 400px;
+  border-top-left-radius: 9px;
+  border-bottom-left-radius: 9px;
 }
 .searchButton{
- 
+  border-top-right-radius: 9px;
+  border-bottom-right-radius: 9px;
 }

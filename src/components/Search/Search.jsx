@@ -62,13 +62,13 @@ function Search({ searchData, placeholder }) {
   };
 
   return (
-    <div style={{ position: "relative" }}>
+    <div style={{ position: "relative"}}>
       <form
         className={styles.wrapper}
         onSubmit={(e) => {
           onSubmit(e, value);
         }}
-        style={{ display: "flex" }}
+        style={{ display: "flex" ,borderRadius:"20px",backgroundColor:"blue"}}
       >
         {/* <div {...getRootProps()}> */}
         <input

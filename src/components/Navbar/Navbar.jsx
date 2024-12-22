@@ -24,5 +24,4 @@ function Navbar({ searchData }) {
     
   );
 }
-
 export default Navbar;

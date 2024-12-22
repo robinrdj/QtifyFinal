@@ -1,15 +1,10 @@
 .navbar {
   background-color: var(--color-primary);
-  height: 74px;
-  width: 100vw;
-  padding: 0px 32px;
+  height: 36px;
+  padding: 0px 200px;
   background-color: #34c94b;
   padding: 20px;
   display: flex;
-}
-.navbar__row {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
   justify-content: space-between;
+
 }

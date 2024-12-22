@@ -3,6 +3,19 @@ import axios from "axios";
 import Card from "../Card/Card";
 import styles from "./Section.module.css";
 
+
+// core version + navigation, pagination modules:
+import Swiper from 'swiper';
+import { Navigation, Pagination } from 'swiper/modules';
+// import Swiper and modules styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+
+// init Swiper:
+
+
+
 function Section({ title, apiEndpoint }) {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
@@ -23,7 +36,11 @@ function Section({ title, apiEndpoint }) {
   if (error) {
     return <p>{error}</p>;
   }
-
+  const swiper = new Swiper('.swiper', {
+    // // configure Swiper to use modules
+    // modules: [Navigation, Pagination],
+    // ...
+  });
   return (
     <div className={styles.section}>
       <div className={styles.heading}>
