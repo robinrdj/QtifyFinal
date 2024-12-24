@@ -106,7 +106,7 @@ function Section({ title, apiEndpoint, isSong }) {
           </div>
           {!expand ? (
             <Swiper
-              slidesPerView={6}
+              slidesPerView={7}
               navigation={true}
               modules={[Pagination, Navigation]}
               className="mySwiper"
@@ -159,7 +159,7 @@ function Section({ title, apiEndpoint, isSong }) {
             return (
               <CustomTabPanel value={value} index={ind}>
                 <Swiper
-                  slidesPerView={6}
+                  slidesPerView={7}
                   navigation={true}
                   modules={[Pagination, Navigation]}
                   className="mySwiper"
