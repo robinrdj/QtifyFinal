@@ -58,19 +58,21 @@ function Search({ searchData, placeholder }) {
     e.preventDefault();
     console.log(value);
     navigate(`/album/${value.slug}`);
-    //Process form data, call API, set state etc.
   };
 
   return (
-    <div style={{ position: "relative"}}>
+    <div style={{ position: "relative" }}>
       <form
         className={styles.wrapper}
         onSubmit={(e) => {
           onSubmit(e, value);
         }}
-        style={{ display: "flex" ,borderRadius:"20px",backgroundColor:"blue"}}
+        style={{
+          display: "flex",
+          borderRadius: "20px",
+          backgroundColor: "blue",
+        }}
       >
-        {/* <div {...getRootProps()}> */}
         <input
           name="album"
           className={styles.search}
@@ -78,8 +80,6 @@ function Search({ searchData, placeholder }) {
           required
           {...getInputProps()}
         />
-        {/* </div> */}
-        {/* <div> */}
         <button className={styles.searchButton} type="submit">
           <SearchIcon />
         </button>

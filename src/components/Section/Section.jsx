@@ -16,6 +16,8 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 
+import Button from "../Button/Button";
+
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -60,7 +62,6 @@ function Section({ title, apiEndpoint, isSong }) {
       } catch (err) {
         setError(err.message);
       }
-      // console.log(data);
     };
     fetchData();
   }, [apiEndpoint]);
@@ -96,13 +97,12 @@ function Section({ title, apiEndpoint, isSong }) {
         <div>
           <div className={styles.heading}>
             <h3>{title}</h3>
-            <button
+            <Button
+              content={"Show All"}
               onClick={() => {
                 setExpand(!expand);
               }}
-            >
-              Collapse all
-            </button>
+            />
           </div>
           {!expand ? (
             <Swiper
@@ -143,42 +143,43 @@ function Section({ title, apiEndpoint, isSong }) {
         </div>
       ) : (
         <Box sx={{ width: "100%" }}>
+          <h3>{title}</h3>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <Tabs
               value={value}
               onChange={handleChange}
               aria-label="basic tabs example"
             >
-              {genres.map((item,ind)=>{
-                return <Tab label={item.label} {...a11yProps(ind)} />
+              {genres.map((item, ind) => {
+                return <Tab label={item.label} {...a11yProps(ind)} />;
               })}
-              {/* <Tab label="Item One" {...a11yProps(0)} />
-              <Tab label="Item Two" {...a11yProps(1)} />
-              <Tab label="Item Three" {...a11yProps(2)} /> */}
             </Tabs>
           </Box>
-          {genres.map((genre,ind)=>{
-          return <CustomTabPanel value={value} index={ind}>
-          <Swiper
-            slidesPerView={6}
-            navigation={true}
-            modules={[Pagination, Navigation]}
-            className="mySwiper"
-          >
-            {data.filter((item)=>item.genre.label===genre.label).map((item) => (
-              <SwiperSlide key={item.id}>
-                <Card
-                  follows={item.follows}
-                  image={item.image}
-                  name={item.title}
-                  isSong={true}
-                  likes = {item.likes}
-
-                />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </CustomTabPanel>
+          {genres.map((genre, ind) => {
+            return (
+              <CustomTabPanel value={value} index={ind}>
+                <Swiper
+                  slidesPerView={6}
+                  navigation={true}
+                  modules={[Pagination, Navigation]}
+                  className="mySwiper"
+                >
+                  {data
+                    .filter((item) => item.genre.label === genre.label)
+                    .map((item) => (
+                      <SwiperSlide key={item.id}>
+                        <Card
+                          follows={item.follows}
+                          image={item.image}
+                          name={item.title}
+                          isSong={true}
+                          likes={item.likes}
+                        />
+                      </SwiperSlide>
+                    ))}
+                </Swiper>
+              </CustomTabPanel>
+            );
           })}
         </Box>
       )}
