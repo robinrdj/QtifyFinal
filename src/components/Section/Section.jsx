@@ -3,23 +3,55 @@ import axios from "axios";
 import Card from "../Card/Card";
 import styles from "./Section.module.css";
 
+//for swiper
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import { Pagination, Navigation } from "swiper/modules";
 
-// core version + navigation, pagination modules:
-import Swiper from 'swiper';
-import { Navigation, Pagination } from 'swiper/modules';
-// import Swiper and modules styles
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+// for tabs
+import PropTypes from "prop-types";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Box from "@mui/material/Box";
 
-// init Swiper:
+function CustomTabPanel(props) {
+  const { children, value, index, ...other } = props;
 
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+    </div>
+  );
+}
 
+CustomTabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
 
-function Section({ title, apiEndpoint }) {
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
+
+function Section({ title, apiEndpoint, isSong }) {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
+  const [expand, setExpand] = useState(false);
+  const [genres, setGenres] = useState([]);
 
+  const [value, setValue] = React.useState(0);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -28,35 +60,127 @@ function Section({ title, apiEndpoint }) {
       } catch (err) {
         setError(err.message);
       }
+      // console.log(data);
     };
-
     fetchData();
+  }, [apiEndpoint]);
+  useEffect(() => {
+    const fetchGenres = async () => {
+      try {
+        const response = await axios.get(
+          "https://qtify-backend-labs.crio.do/genres"
+        );
+        setGenres(response.data.data);
+        console.log(response.data.data);
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
+    fetchGenres();
   }, [apiEndpoint]);
 
   if (error) {
     return <p>{error}</p>;
   }
-  const swiper = new Swiper('.swiper', {
-    // // configure Swiper to use modules
-    // modules: [Navigation, Pagination],
-    // ...
-  });
+
+  if (!data.length) {
+    return <p>Loading...</p>;
+  }
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
   return (
     <div className={styles.section}>
-      <div className={styles.heading}>
-        <h3>{title}</h3>
-      </div>
-      { (
-        <div className={styles.grid}>
-          {data.map((item) => (
-            <Card
-              key={item.id}
-              follows={item.follows}
-              image={item.image}
-              name={item.title}
-            />
-          ))}
+      {!isSong ? (
+        <div>
+          <div className={styles.heading}>
+            <h3>{title}</h3>
+            <button
+              onClick={() => {
+                setExpand(!expand);
+              }}
+            >
+              Collapse all
+            </button>
+          </div>
+          {!expand ? (
+            <Swiper
+              slidesPerView={6}
+              navigation={true}
+              modules={[Pagination, Navigation]}
+              className="mySwiper"
+            >
+              {data.map((item) => (
+                <SwiperSlide key={item.id}>
+                  <Card
+                    follows={item.follows}
+                    image={item.image}
+                    name={item.title}
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          ) : (
+            ""
+          )}
+
+          {expand ? (
+            <div className={styles.grid}>
+              {data.map((item) => (
+                <Card
+                  key={item.id}
+                  follows={item.follows}
+                  image={item.image}
+                  name={item.title}
+                  isSong={false}
+                />
+              ))}
+            </div>
+          ) : (
+            ""
+          )}
         </div>
+      ) : (
+        <Box sx={{ width: "100%" }}>
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              aria-label="basic tabs example"
+            >
+              {genres.map((item,ind)=>{
+                return <Tab label={item.label} {...a11yProps(ind)} />
+              })}
+              {/* <Tab label="Item One" {...a11yProps(0)} />
+              <Tab label="Item Two" {...a11yProps(1)} />
+              <Tab label="Item Three" {...a11yProps(2)} /> */}
+            </Tabs>
+          </Box>
+          {genres.map((genre,ind)=>{
+          return <CustomTabPanel value={value} index={ind}>
+          <Swiper
+            slidesPerView={6}
+            navigation={true}
+            modules={[Pagination, Navigation]}
+            className="mySwiper"
+          >
+            {data.filter((item)=>item.genre.label===genre.label).map((item) => (
+              <SwiperSlide key={item.id}>
+                <Card
+                  follows={item.follows}
+                  image={item.image}
+                  name={item.title}
+                  isSong={true}
+                  likes = {item.likes}
+
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </CustomTabPanel>
+          })}
+        </Box>
       )}
     </div>
   );

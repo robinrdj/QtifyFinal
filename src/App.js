@@ -29,7 +29,9 @@ function App() {
     <Navbar searchData={[]}/>
     <Hero />
     {/* </div> */}
-    <Section title="top albums" apiEndpoint="https://qtify-backend-labs.crio.do/albums/top" />   
+    <Section title="Top albums" apiEndpoint="https://qtify-backend-labs.crio.do/albums/top" isSong={false}/>  
+    <Section title="New albums" apiEndpoint="https://qtify-backend-labs.crio.do/albums/new" isSong={false} />  
+    <Section title="New albums" apiEndpoint="https://qtify-backend-labs.crio.do/songs" isSong={true} /> 
     </BrowserRouter>
 
   );
